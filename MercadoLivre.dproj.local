@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/10/20 15:18:41.000.500,=rtl.dcp</Transaction>
+    <Transaction>2021/10/20 15:18:52.000.537,C:\Users\TiagoPassarella\OneDrive\Documentos\Embarcadero\Studio\Projects\MercadoLivre.dproj=C:\Users\TiagoPassarella\OneDrive\Documentos\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
+    <Transaction>2021/10/20 15:19:37.000.008,D:\Dropbox\Componentes\DTMercadoLivre\MercadoLivre.dproj=C:\Users\TiagoPassarella\OneDrive\Documentos\Embarcadero\Studio\Projects\MercadoLivre.dproj</Transaction>
+    <Transaction>2021/10/20 15:20:32.000.965,=D:\Dropbox\Componentes\DTMercadoLivre\MercLivre.pas</Transaction>
+    <Transaction>2021/10/20 15:39:20.000.694,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Request.Client.pas</Transaction>
+    <Transaction>2021/10/20 15:39:20.000.724,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Request.Contract.pas</Transaction>
+    <Transaction>2021/10/20 15:39:20.000.659,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.pas</Transaction>
+    <Transaction>2021/10/20 15:39:21.000.797,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Response.Contract.pas</Transaction>
+    <Transaction>2021/10/20 15:39:21.000.740,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Request.NetHTTP.pas</Transaction>
+    <Transaction>2021/10/20 15:39:21.000.879,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Utils.pas</Transaction>
+    <Transaction>2021/10/20 15:39:21.000.825,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Response.Indy.pas</Transaction>
+    <Transaction>2021/10/20 15:39:21.000.714,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Request.Indy.pas</Transaction>
+    <Transaction>2021/10/20 15:39:21.000.771,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Response.Client.pas</Transaction>
+    <Transaction>2021/10/20 15:39:21.000.851,=D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Response.NetHTTP.pas</Transaction>
+    <Transaction>2021/10/21 08:24:27.000.137,=D:\Dropbox\Componentes\DTMercadoLivre\Dto\UsuarioInfo.pas</Transaction>
+    <Transaction>2021/10/21 08:24:27.000.105,=D:\Dropbox\Componentes\DTMercadoLivre\Dto\Pkg.Json.DTO.pas</Transaction>
+    <Transaction>2021/10/21 08:28:16.000.641,=D:\Dropbox\Componentes\DTMercadoLivre\Dto\Pkg.Json.DTO.pas</Transaction>
+    <Transaction>2021/10/21 08:28:16.000.668,=D:\Dropbox\Componentes\DTMercadoLivre\Dto\RootUnit.pas</Transaction>
+    <Transaction>2021/10/21 08:31:26.000.363,D:\Dropbox\Componentes\DTMercadoLivre\Dto\UserInfo.pas=D:\Dropbox\Componentes\DTMercadoLivre\Dto\RootUnit.pas</Transaction>
+    <Transaction>2021/10/21 10:11:12.000.924,=D:\Dropbox\Componentes\DTMercadoLivre\Dto\UserEndereco.pas</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.846,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Response.Indy.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.772,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Request.Contract.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.792,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Response.Client.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.744,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.871,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Utils.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.774,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Request.Indy.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.860,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Response.NetHTTP.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.812,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Response.Contract.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.760,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Request.Client.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:09.000.776,D:\Dropbox\Componentes\DTMercadoLivre\Request4D\RESTRequest4D.Request.NetHTTP.pas=</Transaction>
+    <Transaction>2021/10/21 10:44:28.000.750,=dbrtl.dcp</Transaction>
+    <Transaction>2021/10/21 10:44:28.000.897,=FireDACCommonDriver.dcp</Transaction>
+    <Transaction>2021/10/21 10:44:28.000.872,=FireDAC.dcp</Transaction>
+    <Transaction>2021/10/21 10:44:28.000.949,=WooCommerce4D.dcp</Transaction>
+    <Transaction>2021/10/21 10:44:28.000.926,=FireDACCommon.dcp</Transaction>
+    <Transaction>2021/10/21 10:44:28.000.845,=RESTComponents.dcp</Transaction>
+    <Transaction>2021/10/21 10:44:28.000.818,=bindcomp.dcp</Transaction>
+    <Transaction>2021/10/21 10:44:28.000.795,=bindengine.dcp</Transaction>
+    <Transaction>2021/10/21 10:50:15.000.810,D:\Dropbox\Componentes\DTMercadoLivre\Dto\Pkg1.Json.DTO.pas=D:\Dropbox\Componentes\DTMercadoLivre\Dto\Pkg.Json.DTO.pas</Transaction>
+    <Transaction>2022/06/01 12:15:30.000.440,=WooCommerce4D.dcp</Transaction>
+    <Transaction>2022/06/20 08:43:07.000.003,=WooCommerce4D.dcp</Transaction>
+  </Transactions>
+</BorlandProject>

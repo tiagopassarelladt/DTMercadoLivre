@@ -1,0 +1,86 @@
+unit Unit4;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, MercLivre;
+
+type
+  TForm4 = class(TForm)
+    Memo1: TMemo;
+    Button1: TButton;
+    MercadoLivre1: TMercadoLivre;
+    edtCodigo: TEdit;
+    edtDescricao: TEdit;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form4: TForm4;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm4.Button1Click(Sender: TObject);
+var
+URL,marca,modelo:STRING;
+codigocategoria,NomeCategoria:string;
+begin
+    Memo1.Lines.Clear;
+    try
+        try
+          URL := 'https://th.bing.com/th/id/OIP.u8FuqHQDere_xWTmm_WeCgHaHa?pid=ImgDet&rs=1';
+
+          MercadoLivre1.CaminhoArquivoToken := 'C:\temp\';
+          MercadoLivre1.userID              := '289283150';
+          MercadoLivre1.ClientID            := '7027045775880535';
+          MercadoLivre1.ClientSecret        := 'EXfb8roJ25vSLsng4Jgr3wFltRJboP8M';
+          MercadoLivre1.Refresh_Token       := 'TG-61701327be0ea6001bd55c89-289283150';
+          MercadoLivre1.AccessToken         := 'APP_USR-7027045775880535-102114-19a858c192555373f21a05c063a523cb-289283150';
+
+          MercadoLivre1.ConsultaGrupos(edtDescricao.Text);
+
+          codigocategoria := MercadoLivre1.Grupos[0].Id;
+          NomeCategoria   := MercadoLivre1.Grupos[0].Descricao;
+
+          if marca='' then
+          marca := 'SEM MARCA';
+
+          if modelo='' then
+          MODELO := 'SEM MODELO';
+
+          MercadoLivre1.PublicarProduto(edtCodigo.Text,
+                                        '123',
+                                        edtDescricao.Text,
+                                        MARCA,
+                                        MODELO,
+                                        URL,
+                                        1500.00,
+                                        codigocategoria,
+                                        1000);
+           if MercadoLivre1.Retorno.StatusCode<>201 then
+           begin
+               ShowMessage(MercadoLivre1.Retorno.Mensagem);
+               Memo1.Lines.Add(MercadoLivre1.Retorno.Mensagem);
+               abort;
+           end;
+        except on e:Exception do
+        begin
+               ShowMessage(MercadoLivre1.Retorno.Mensagem);
+               Memo1.Lines.Add(MercadoLivre1.Retorno.Mensagem);
+               abort;
+        end;
+        end;
+    finally
+        ShowMessage(MercadoLivre1.Retorno.Mensagem);
+        Memo1.Lines.Add(MercadoLivre1.Retorno.Mensagem);
+    end;
+end;
+
+end.

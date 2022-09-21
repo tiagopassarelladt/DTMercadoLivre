@@ -1,0 +1,107 @@
+unit Unit4;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, MercLivre;
+
+type
+  TForm4 = class(TForm)
+    Memo1: TMemo;
+    Button1: TButton;
+    MercadoLivre1: TMercadoLivre;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form4: TForm4;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm4.Button1Click(Sender: TObject);
+var
+URL,marca,modelo:STRING;
+codigocategoria,NomeCategoria:string;
+begin
+    try
+        try
+          URL := 'https://th.bing.com/th/id/OIP.u8FuqHQDere_xWTmm_WeCgHaHa?pid=ImgDet&rs=1';
+
+          MercadoLivre1.CaminhoArquivoToken := ExtractFilePath(Application.ExeName);
+          MercadoLivre1.userID              := '289283150';
+          MercadoLivre1.ClientID            := '7027045775880535';
+          MercadoLivre1.ClientSecret        := 'EXfb8roJ25vSLsng4Jgr3wFltRJboP8M';
+          MercadoLivre1.Refresh_Token       := 'TG-61701327be0ea6001bd55c89-289283150';
+          MercadoLivre1.AccessToken         := 'APP_USR-7027045775880535-102114-19a858c192555373f21a05c063a523cb-289283150';
+
+          MercadoLivre1.ConsultaGrupos(cboProduto.Text);
+
+          codigocategoria := MercadoLivre1.Grupos[0].Id;
+          NomeCategoria   := MercadoLivre1.Grupos[0].Descricao;
+
+          C := ConsultaProduto(cboProduto.KeyValue);
+
+          marca  := C.MARCA;
+          MODELO := C.MODELO;
+
+          if marca='' then
+          marca := 'SEM MARCA';
+
+          if modelo='' then
+          MODELO := 'SEM MODELO';
+
+          MercadoLivre1.PublicarProduto(C.CODIGO,
+                                        C.CODLOJA,
+                                        C.DESCRICAO,
+                                        MARCA,
+                                        MODELO,
+                                        URL,
+                                        edtValor.Value,
+                                        codigocategoria,
+                                        1000);
+           if MercadoLivre1.Retorno.StatusCode<>201 then
+           begin
+               Informar(MercadoLivre1.Retorno.Mensagem,'Aviso do sistema',true);
+               abort;
+           end;
+
+           QryM := TFDQuery.Create(nil);
+           QryM.Connection := TDatamodule.Conexao;
+
+           QryM.SQL.Text := 'INSERT INTO TBMDLPUBLICACAO (IDPUBLICACAO,CODIGO,DESCRICAO,MARCA,MODELO,URLIMG,VALOR,GRUPO,ENVIO,ESTOQUE,STATUS,CATEGORIA) VALUES (' +
+                            ':p1,:p2,:p3,:p4,:p5,:p6,:p7,:p8,:p9,:p10,:p11,:p12)';
+           QryM.ParamByName('p1').AsString  := MercadoLivre1.Retorno.IdPublicacao;
+           QryM.ParamByName('p2').AsString  := C.CODIGO;
+           QryM.ParamByName('p3').AsString  := C.DESCRICAO;
+           QryM.ParamByName('p4').AsString  := C.MARCA;
+           QryM.ParamByName('p5').AsString  := C.MODELO;
+           QryM.ParamByName('p6').AsString  := URL;
+           QryM.ParamByName('p7').AsFloat   := edtValor.Value;
+           QryM.ParamByName('p8').AsString  := codigocategoria;
+           QryM.ParamByName('p9').AsString  := '';
+           QryM.ParamByName('p10').AsFloat  := 1000;
+           QryM.ParamByName('p11').AsString := 'ATIVO';
+           QryM.ParamByName('p12').AsString := NomeCategoria;
+           QryM.ExecSQL;
+
+           QryM.Free;
+        except on e:Exception do
+        begin
+               Informar(MercadoLivre1.Retorno.Mensagem,'Aviso do sistema',true);
+               abort;
+        end;
+        end;
+    finally
+        Informar(MercadoLivre1.Retorno.Mensagem,'Aviso do sistema',False);
+        PreencPublicacao;
+    end;
+end;
+
+end.

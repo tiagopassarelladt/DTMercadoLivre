@@ -1,0 +1,786 @@
+unit UserInfo;
+
+interface
+
+uses
+  Pkg1.Json.DTO, System.Generics.Collections, REST.Json.Types;
+
+{$M+}
+
+type
+  TBilling = class;
+  TBuy = class;
+  TCancellations = class;
+  TClaims = class;
+  TCodes = class;
+  TDelayedHandlingTime = class;
+  TImmediatePayment = class;
+  TList = class;
+  TMetrics = class;
+  TNotYetRated = class;
+  TRatings = class;
+  TReasons = class;
+  TSales = class;
+  TSell = class;
+  TShoppingCart = class;
+  TTags = class;
+  TTransactions = class;
+  TUnrated = class;
+
+  TRegistrationIdentifiers = class
+  end;
+  
+  TContext = class
+  private
+    FDevice: string;
+    FFlow: string;
+    FSource: string;
+  published
+    property Device: string read FDevice write FDevice;
+    property Flow: string read FFlow write FFlow;
+    property Source: string read FSource write FSource;
+  end;
+  
+  TCredit = class
+  private
+    FConsumed: Integer;
+    [JSONName('credit_level_id')]
+    FCreditLevelId: string;
+    FRank: string;
+  published
+    property Consumed: Integer read FConsumed write FConsumed;
+    property CreditLevelId: string read FCreditLevelId write FCreditLevelId;
+    property Rank: string read FRank write FRank;
+  end;
+  
+  TCompany = class
+  private
+    [JSONName('city_tax_id')]
+    FCityTaxId: string;
+    [JSONName('corporate_name')]
+    FCorporateName: string;
+    [JSONName('cust_type_id')]
+    FCustTypeId: string;
+    FIdentification: string;
+    [JSONName('state_tax_id')]
+    FStateTaxId: string;
+  published
+    property CityTaxId: string read FCityTaxId write FCityTaxId;
+    property CorporateName: string read FCorporateName write FCorporateName;
+    property CustTypeId: string read FCustTypeId write FCustTypeId;
+    property Identification: string read FIdentification write FIdentification;
+    property StateTaxId: string read FStateTaxId write FStateTaxId;
+  end;
+  
+  TReasons = class
+  end;
+  
+  TImmediatePayment = class(TJsonDTO)
+  private
+    [JSONName('reasons'), JSONMarshalled(False)]
+    FReasonsArray: TArray<TReasons>;
+    [GenericListReflect]
+    FReasons: TObjectList<TReasons>;
+    FRequired: Boolean;
+    function GetReasons: TObjectList<TReasons>;
+  protected
+    function GetAsJson: string; override;
+  published
+    property Reasons: TObjectList<TReasons> read GetReasons;
+    property Required: Boolean read FRequired write FRequired;
+  public
+    destructor Destroy; override;
+  end;
+  
+  TCodes = class
+  end;
+
+  TTags = class
+  end;
+  
+  TSell = class(TJsonDTO)
+  private
+    FAllow: Boolean;
+    [JSONName('codes'), JSONMarshalled(False)]
+    FCodesArray: TArray<TCodes>;
+    [GenericListReflect]
+    FCodes: TObjectList<TCodes>;
+    [JSONName('immediate_payment')]
+    FImmediatePayment: TImmediatePayment;
+    function GetCodes: TObjectList<TCodes>;
+  protected
+    function GetAsJson: string; override;
+  published
+    property Allow: Boolean read FAllow write FAllow;
+    property Codes: TObjectList<TCodes> read GetCodes;
+    property ImmediatePayment: TImmediatePayment read FImmediatePayment;
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+  end;
+  
+  TList = class(TJsonDTO)
+  private
+    FAllow: Boolean;
+    [JSONName('codes'), JSONMarshalled(False)]
+    FCodesArray: TArray<TCodes>;
+    [GenericListReflect]
+    FCodes: TObjectList<TCodes>;
+    [JSONName('immediate_payment')]
+    FImmediatePayment: TImmediatePayment;
+    function GetCodes: TObjectList<TCodes>;
+  protected
+    function GetAsJson: string; override;
+  published
+    property Allow: Boolean read FAllow write FAllow;
+    property Codes: TObjectList<TCodes> read GetCodes;
+    property ImmediatePayment: TImmediatePayment read FImmediatePayment;
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+  end;
+  
+  TShoppingCart = class
+  private
+    FBuy: string;
+    FSell: string;
+  published
+    property Buy: string read FBuy write FBuy;
+    property Sell: string read FSell write FSell;
+  end;
+  
+  TBuy = class(TJsonDTO)
+  private
+    FAllow: Boolean;
+    [JSONName('codes'), JSONMarshalled(False)]
+    FCodesArray: TArray<TCodes>;
+    [GenericListReflect]
+    FCodes: TObjectList<TCodes>;
+    [JSONName('immediate_payment')]
+    FImmediatePayment: TImmediatePayment;
+    function GetCodes: TObjectList<TCodes>;
+  protected
+    function GetAsJson: string; override;
+  published
+    property Allow: Boolean read FAllow write FAllow;
+    property Codes: TObjectList<TCodes> read GetCodes;
+    property ImmediatePayment: TImmediatePayment read FImmediatePayment;
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+  end;
+  
+  TBilling = class(TJsonDTO)
+  private
+    FAllow: Boolean;
+    [JSONName('codes'), JSONMarshalled(False)]
+    FCodesArray: TArray<TCodes>;
+    [GenericListReflect]
+    FCodes: TObjectList<TCodes>;
+    function GetCodes: TObjectList<TCodes>;
+  protected
+    function GetAsJson: string; override;
+  published
+    property Allow: Boolean read FAllow write FAllow;
+    property Codes: TObjectList<TCodes> read GetCodes;
+  public
+    destructor Destroy; override;
+  end;
+  
+  TStatus = class
+  private
+    FBilling: TBilling;
+    FBuy: TBuy;
+    [JSONName('confirmed_email')]
+    FConfirmedEmail: Boolean;
+    [JSONName('immediate_payment')]
+    FImmediatePayment: Boolean;
+    FList: TList;
+    FMercadoenvios: string;
+    [JSONName('mercadopago_account_type')]
+    FMercadopagoAccountType: string;
+    [JSONName('mercadopago_tc_accepted')]
+    FMercadopagoTcAccepted: Boolean;
+    FSell: TSell;
+    [JSONName('shopping_cart')]
+    FShoppingCart: TShoppingCart;
+    [JSONName('site_status')]
+    FSiteStatus: string;
+    [JSONName('user_type')]
+    FUserType: string;
+  published
+    property Billing: TBilling read FBilling;
+    property Buy: TBuy read FBuy;
+    property ConfirmedEmail: Boolean read FConfirmedEmail write FConfirmedEmail;
+    property ImmediatePayment: Boolean read FImmediatePayment write FImmediatePayment;
+    property List: TList read FList;
+    property Mercadoenvios: string read FMercadoenvios write FMercadoenvios;
+    property MercadopagoAccountType: string read FMercadopagoAccountType write FMercadopagoAccountType;
+    property MercadopagoTcAccepted: Boolean read FMercadopagoTcAccepted write FMercadopagoTcAccepted;
+    property Sell: TSell read FSell;
+    property ShoppingCart: TShoppingCart read FShoppingCart;
+    property SiteStatus: string read FSiteStatus write FSiteStatus;
+    property UserType: string read FUserType write FUserType;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+  
+  TUnrated = class
+  end;
+  
+  TNotYetRated = class
+  end;
+  
+  TCanceled = class
+  end;
+  
+  TTransactions = class
+  private
+    FCanceled: Integer;
+    FCompleted: Integer;
+    [JSONName('not_yet_rated')]
+    FNotYetRated: TNotYetRated;
+    FPeriod: string;
+    FRatings: TRatings;
+    FTotal: Integer;
+    FUnrated: TUnrated;
+  published
+    property Canceled: Integer read FCanceled write FCanceled;
+    property Completed: Integer read FCompleted write FCompleted;
+    property NotYetRated: TNotYetRated read FNotYetRated;
+    property Period: string read FPeriod write FPeriod;
+    property Ratings: TRatings read FRatings;
+    property Total: Integer read FTotal write FTotal;
+    property Unrated: TUnrated read FUnrated;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+  
+  TBuyerReputation = class(TJsonDTO)
+  private
+    [JSONName('canceled_transactions')]
+    FCanceledTransactions: Integer;
+    [JSONName('tags'), JSONMarshalled(False)]
+    FTagsArray: TArray<TTags>;
+    [GenericListReflect]
+    FTags: TObjectList<TTags>;
+    FTransactions: TTransactions;
+    function GetTags: TObjectList<TTags>;
+  protected
+    function GetAsJson: string; override;
+  published
+    property CanceledTransactions: Integer read FCanceledTransactions write FCanceledTransactions;
+    property Tags: TObjectList<TTags> read GetTags;
+    property Transactions: TTransactions read FTransactions;
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+  end;
+  
+  TCancellations = class
+  private
+    FPeriod: string;
+    FRate: Integer;
+    FValue: Integer;
+  published
+    property Period: string read FPeriod write FPeriod;
+    property Rate: Integer read FRate write FRate;
+    property Value: Integer read FValue write FValue;
+  end;
+  
+  TDelayedHandlingTime = class
+  private
+    FPeriod: string;
+    FRate: Integer;
+    FValue: Integer;
+  published
+    property Period: string read FPeriod write FPeriod;
+    property Rate: Integer read FRate write FRate;
+    property Value: Integer read FValue write FValue;
+  end;
+  
+  TClaims = class
+  private
+    FPeriod: string;
+    FRate: Integer;
+    FValue: Integer;
+  published
+    property Period: string read FPeriod write FPeriod;
+    property Rate: Integer read FRate write FRate;
+    property Value: Integer read FValue write FValue;
+  end;
+  
+  TSales = class
+  private
+    FCompleted: Integer;
+    FPeriod: string;
+  published
+    property Completed: Integer read FCompleted write FCompleted;
+    property Period: string read FPeriod write FPeriod;
+  end;
+  
+  TMetrics = class
+  private
+    FCancellations: TCancellations;
+    FClaims: TClaims;
+    [JSONName('delayed_handling_time')]
+    FDelayedHandlingTime: TDelayedHandlingTime;
+    FSales: TSales;
+  published
+    property Cancellations: TCancellations read FCancellations;
+    property Claims: TClaims read FClaims;
+    property DelayedHandlingTime: TDelayedHandlingTime read FDelayedHandlingTime;
+    property Sales: TSales read FSales;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+  
+  TRatings = class
+  private
+    FNegative: Integer;
+    FNeutral: Integer;
+    FPositive: Integer;
+  published
+    property Negative: Integer read FNegative write FNegative;
+    property Neutral: Integer read FNeutral write FNeutral;
+    property Positive: Integer read FPositive write FPositive;
+  end;
+  
+  TSellerReputation = class
+  private
+    FMetrics: TMetrics;
+    FTransactions: TTransactions;
+  published
+    property Metrics: TMetrics read FMetrics;
+    property Transactions: TTransactions read FTransactions;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+  
+  TBillData = class
+  end;
+  
+  TAlternativePhone = class
+  private
+    [JSONName('area_code')]
+    FAreaCode: string;
+    FExtension: string;
+    FNumber: string;
+  published
+    property AreaCode: string read FAreaCode write FAreaCode;
+    property Extension: string read FExtension write FExtension;
+    property Number: string read FNumber write FNumber;
+  end;
+  
+  TPhone = class
+  private
+    [JSONName('area_code')]
+    FAreaCode: string;
+    FExtension: string;
+    FNumber: string;
+    FVerified: Boolean;
+  published
+    property AreaCode: string read FAreaCode write FAreaCode;
+    property Extension: string read FExtension write FExtension;
+    property Number: string read FNumber write FNumber;
+    property Verified: Boolean read FVerified write FVerified;
+  end;
+  
+  TAddress = class
+  private
+    FAddress: string;
+    FCity: string;
+    FState: string;
+    [JSONName('zip_code')]
+    FZipCode: string;
+  published
+    property Address: string read FAddress write FAddress;
+    property City: string read FCity write FCity;
+    property State: string read FState write FState;
+    property ZipCode: string read FZipCode write FZipCode;
+  end;
+  
+  TIdentification = class
+  private
+    FNumber: string;
+    FType: string;
+  published
+    property Number: string read FNumber write FNumber;
+    property &Type: string read FType write FType;
+  end;
+  
+  TUserInfo= class(TJsonDTO)
+  private
+    FAddress: TAddress;
+    [JSONName('alternative_phone')]
+    FAlternativePhone: TAlternativePhone;
+    [JSONName('bill_data')]
+    FBillData: TBillData;
+    [JSONName('buyer_reputation')]
+    FBuyerReputation: TBuyerReputation;
+    FCompany: TCompany;
+    FContext: TContext;
+    [JSONName('country_id')]
+    FCountryId: string;
+    FCredit: TCredit;
+    FEmail: string;
+    [JSONName('first_name')]
+    FFirstName: string;
+    FGender: string;
+    FId: Integer;
+    FIdentification: TIdentification;
+    [JSONName('last_name')]
+    FLastName: string;
+    FNickname: string;
+    FPermalink: string;
+    FPhone: TPhone;
+    FPoints: Integer;
+    [SuppressZero, JSONName('registration_date')]
+    FRegistrationDate: TDateTime;
+    [JSONName('registration_identifiers'), JSONMarshalled(False)]
+    FRegistrationIdentifiersArray: TArray<TRegistrationIdentifiers>;
+    [GenericListReflect]
+    FRegistrationIdentifiers: TObjectList<TRegistrationIdentifiers>;
+    [JSONName('secure_email')]
+    FSecureEmail: string;
+    [JSONName('seller_experience')]
+    FSellerExperience: string;
+    [JSONName('seller_reputation')]
+    FSellerReputation: TSellerReputation;
+    [JSONName('shipping_modes')]
+    FShippingModesArray: TArray<string>;
+    [JSONMarshalled(False)]
+    FShippingModes: TList<string>;
+    [JSONName('site_id')]
+    FSiteId: string;
+    FStatus: TStatus;
+    [JSONName('tags')]
+    FTagsArray: TArray<string>;
+    [JSONMarshalled(False)]
+    FTags: TList<string>;
+    [JSONName('user_type')]
+    FUserType: string;
+    function GetRegistrationIdentifiers: TObjectList<TRegistrationIdentifiers>;
+    function GetShippingModes: TList<string>;
+    function GetTags: TList<string>;
+  protected
+    function GetAsJson: string; override;
+  published
+    property Address: TAddress read FAddress;
+    property AlternativePhone: TAlternativePhone read FAlternativePhone;
+    property BillData: TBillData read FBillData;
+    property BuyerReputation: TBuyerReputation read FBuyerReputation;
+    property Company: TCompany read FCompany;
+    property Context: TContext read FContext;
+    property CountryId: string read FCountryId write FCountryId;
+    property Credit: TCredit read FCredit;
+    property Email: string read FEmail write FEmail;
+    property FirstName: string read FFirstName write FFirstName;
+    property Gender: string read FGender write FGender;
+    property Id: Integer read FId write FId;
+    property Identification: TIdentification read FIdentification;
+    property LastName: string read FLastName write FLastName;
+    property Nickname: string read FNickname write FNickname;
+    property Permalink: string read FPermalink write FPermalink;
+    property Phone: TPhone read FPhone;
+    property Points: Integer read FPoints write FPoints;
+    property RegistrationDate: TDateTime read FRegistrationDate write FRegistrationDate;
+    property RegistrationIdentifiers: TObjectList<TRegistrationIdentifiers> read GetRegistrationIdentifiers;
+    property SecureEmail: string read FSecureEmail write FSecureEmail;
+    property SellerExperience: string read FSellerExperience write FSellerExperience;
+    property SellerReputation: TSellerReputation read FSellerReputation;
+    property ShippingModes: TList<string> read GetShippingModes;
+    property SiteId: string read FSiteId write FSiteId;
+    property Status: TStatus read FStatus;
+    property Tags: TList<string> read GetTags;
+    property UserType: string read FUserType write FUserType;
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+  end;
+  
+implementation
+
+{ TImmediatePayment }
+
+destructor TImmediatePayment.Destroy;
+begin
+  GetReasons.Free;
+  inherited;
+end;
+
+function TImmediatePayment.GetReasons: TObjectList<TReasons>;
+begin
+  Result := ObjectList<TReasons>(FReasons, FReasonsArray);
+end;
+
+function TImmediatePayment.GetAsJson: string;
+begin
+  RefreshArray<TReasons>(FReasons, FReasonsArray);
+  Result := inherited;
+end;
+
+{ TSell }
+
+constructor TSell.Create;
+begin
+  inherited;
+  FImmediatePayment := TImmediatePayment.Create;
+end;
+
+destructor TSell.Destroy;
+begin
+  FImmediatePayment.Free;
+  GetCodes.Free;
+  inherited;
+end;
+
+function TSell.GetCodes: TObjectList<TCodes>;
+begin
+  Result := ObjectList<TCodes>(FCodes, FCodesArray);
+end;
+
+function TSell.GetAsJson: string;
+begin
+  RefreshArray<TCodes>(FCodes, FCodesArray);
+  Result := inherited;
+end;
+
+{ TList }
+
+constructor TList.Create;
+begin
+  inherited;
+  FImmediatePayment := TImmediatePayment.Create;
+end;
+
+destructor TList.Destroy;
+begin
+  FImmediatePayment.Free;
+  GetCodes.Free;
+  inherited;
+end;
+
+function TList.GetCodes: TObjectList<TCodes>;
+begin
+  Result := ObjectList<TCodes>(FCodes, FCodesArray);
+end;
+
+function TList.GetAsJson: string;
+begin
+  RefreshArray<TCodes>(FCodes, FCodesArray);
+  Result := inherited;
+end;
+
+{ TBuy }
+
+constructor TBuy.Create;
+begin
+  inherited;
+  FImmediatePayment := TImmediatePayment.Create;
+end;
+
+destructor TBuy.Destroy;
+begin
+  FImmediatePayment.Free;
+  GetCodes.Free;
+  inherited;
+end;
+
+function TBuy.GetCodes: TObjectList<TCodes>;
+begin
+  Result := ObjectList<TCodes>(FCodes, FCodesArray);
+end;
+
+function TBuy.GetAsJson: string;
+begin
+  RefreshArray<TCodes>(FCodes, FCodesArray);
+  Result := inherited;
+end;
+
+{ TBilling }
+
+destructor TBilling.Destroy;
+begin
+  GetCodes.Free;
+  inherited;
+end;
+
+function TBilling.GetCodes: TObjectList<TCodes>;
+begin
+  Result := ObjectList<TCodes>(FCodes, FCodesArray);
+end;
+
+function TBilling.GetAsJson: string;
+begin
+  RefreshArray<TCodes>(FCodes, FCodesArray);
+  Result := inherited;
+end;
+
+{ TStatus }
+
+constructor TStatus.Create;
+begin
+  inherited;
+  FBilling := TBilling.Create;
+  FBuy := TBuy.Create;
+  FShoppingCart := TShoppingCart.Create;
+  FList := TList.Create;
+  FSell := TSell.Create;
+end;
+
+destructor TStatus.Destroy;
+begin
+  FBilling.Free;
+  FBuy.Free;
+  FShoppingCart.Free;
+  FList.Free;
+  FSell.Free;
+  inherited;
+end;
+
+{ TTransactions }
+
+constructor TTransactions.Create;
+begin
+  inherited;
+  FRatings := TRatings.Create;
+  FNotYetRated := TNotYetRated.Create;
+  FUnrated := TUnrated.Create;
+end;
+
+destructor TTransactions.Destroy;
+begin
+  FRatings.Free;
+  FNotYetRated.Free;
+  FUnrated.Free;
+  inherited;
+end;
+
+{ TBuyerReputation }
+
+constructor TBuyerReputation.Create;
+begin
+  inherited;
+  FTransactions := TTransactions.Create;
+end;
+
+destructor TBuyerReputation.Destroy;
+begin
+  FTransactions.Free;
+  GetTags.Free;
+  inherited;
+end;
+
+function TBuyerReputation.GetTags: TObjectList<TTags>;
+begin
+  Result := ObjectList<TTags>(FTags, FTagsArray);
+end;
+
+function TBuyerReputation.GetAsJson: string;
+begin
+  RefreshArray<TTags>(FTags, FTagsArray);
+  Result := inherited;
+end;
+
+{ TMetrics }
+
+constructor TMetrics.Create;
+begin
+  inherited;
+  FSales := TSales.Create;
+  FClaims := TClaims.Create;
+  FDelayedHandlingTime := TDelayedHandlingTime.Create;
+  FCancellations := TCancellations.Create;
+end;
+
+destructor TMetrics.Destroy;
+begin
+  FSales.Free;
+  FClaims.Free;
+  FDelayedHandlingTime.Free;
+  FCancellations.Free;
+  inherited;
+end;
+
+{ TSellerReputation }
+
+constructor TSellerReputation.Create;
+begin
+  inherited;
+  FTransactions := TTransactions.Create;
+  FMetrics := TMetrics.Create;
+end;
+
+destructor TSellerReputation.Destroy;
+begin
+  FTransactions.Free;
+  FMetrics.Free;
+  inherited;
+end;
+
+{ TRoot }
+
+constructor TUserInfo.Create;
+begin
+  inherited;
+  FIdentification := TIdentification.Create;
+  FAddress := TAddress.Create;
+  FPhone := TPhone.Create;
+  FAlternativePhone := TAlternativePhone.Create;
+  FBillData := TBillData.Create;
+  FSellerReputation := TSellerReputation.Create;
+  FBuyerReputation := TBuyerReputation.Create;
+  FStatus := TStatus.Create;
+  FCompany := TCompany.Create;
+  FCredit := TCredit.Create;
+  FContext := TContext.Create;
+end;
+
+destructor TUserInfo.Destroy;
+begin
+  FIdentification.Free;
+  FAddress.Free;
+  FPhone.Free;
+  FAlternativePhone.Free;
+  FBillData.Free;
+  FSellerReputation.Free;
+  FBuyerReputation.Free;
+  FStatus.Free;
+  FCompany.Free;
+  FCredit.Free;
+  FContext.Free;
+  GetTags.Free;
+  GetShippingModes.Free;
+  GetRegistrationIdentifiers.Free;
+  inherited;
+end;
+
+function TUserInfo.GetRegistrationIdentifiers: TObjectList<TRegistrationIdentifiers>;
+begin
+  Result := ObjectList<TRegistrationIdentifiers>(FRegistrationIdentifiers, FRegistrationIdentifiersArray);
+end;
+
+function TUserInfo.GetShippingModes: TList<string>;
+begin
+  Result := List<string>(FShippingModes, FShippingModesArray);
+end;
+
+function TUserInfo.GetTags: TList<string>;
+begin
+  Result := List<string>(FTags, FTagsArray);
+end;
+
+function TUserInfo.GetAsJson: string;
+begin
+  RefreshArray<TRegistrationIdentifiers>(FRegistrationIdentifiers, FRegistrationIdentifiersArray);
+  RefreshArray<string>(FShippingModes, FShippingModesArray);
+  RefreshArray<string>(FTags, FTagsArray);
+  Result := inherited;
+end;
+
+end.

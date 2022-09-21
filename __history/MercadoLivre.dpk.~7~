@@ -1,0 +1,48 @@
+package MercadoLivre;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl;
+
+contains
+  MercLivre in 'MercLivre.pas',
+  RESTRequest4D in 'Request4D\RESTRequest4D.pas',
+  RESTRequest4D.Request.Client in 'Request4D\RESTRequest4D.Request.Client.pas',
+  RESTRequest4D.Request.Contract in 'Request4D\RESTRequest4D.Request.Contract.pas',
+  RESTRequest4D.Request.Indy in 'Request4D\RESTRequest4D.Request.Indy.pas',
+  RESTRequest4D.Request.NetHTTP in 'Request4D\RESTRequest4D.Request.NetHTTP.pas',
+  RESTRequest4D.Response.Client in 'Request4D\RESTRequest4D.Response.Client.pas',
+  RESTRequest4D.Response.Contract in 'Request4D\RESTRequest4D.Response.Contract.pas',
+  RESTRequest4D.Response.Indy in 'Request4D\RESTRequest4D.Response.Indy.pas',
+  RESTRequest4D.Response.NetHTTP in 'Request4D\RESTRequest4D.Response.NetHTTP.pas',
+  RESTRequest4D.Utils in 'Request4D\RESTRequest4D.Utils.pas',
+  Pkg.Json.DTO in 'Dto\Pkg.Json.DTO.pas',
+  UserInfo in 'Dto\UserInfo.pas';
+
+end.
